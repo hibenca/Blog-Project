@@ -1,4 +1,5 @@
 // Required dependencies
+require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
@@ -7,8 +8,9 @@ const mongoose = require('mongoose');
 
 
 // Mongoose Server
-// MongoAtlas information: "mongodb+srv://admin-corey:<password>@cluster0-xtejg.mongodb.net/BlogPostsDB"
-mongoose.connect('mongodb://localhost:27017/BlogPostsDB', {
+// MongoAtlas information: ""
+// mongodb://localhost:27017/BlogPostsDB
+mongoose.connect('mongodb+srv://admin-corey:' + process.env.PASSWORD + '@cluster0-xtejg.mongodb.net/BlogPostsDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
@@ -104,6 +106,11 @@ app.post("/compose", function(req, res) {
 });
 
 // Listening for start of server
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function() {
+  console.log("Server started successfully");
 });
